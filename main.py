@@ -59,12 +59,18 @@ class Node():
             return self.data
         if self.data > node:
             print("case 2")
-            self.childLeft = self.childLeft.delete(node)
+            if self.childLeft:
+                self.childLeft = self.childLeft.delete(node)
+            
         elif self.data < node:
             print("c3")
-            self.childRight = self.childRight.delete(node)
+            if self.childRight:
+                self.childRight = self.childRight.delete(node)
+           
         else:
             print("got into else")
+            
+                
             if self.childLeft is None:
                 print("self.childleft is none")
                 return self.childRight
@@ -78,10 +84,10 @@ class Node():
                 print('else 2')
                 min, max = self.childRight.minmax()
                 print(min, max)
-                self.data = None
-                self.data = min.data
-                self.childRight.delete(self.childRight)
-                return min
+         
+                self.data = min
+                self.childRight = self.childRight.delete(min)
+                
             
 
 
@@ -90,5 +96,7 @@ root.add(33)
 root.add(50)
 root.add(99)
 root.add(20)
+root.display()
+print("")
 root.delete(100)
 root.display()
