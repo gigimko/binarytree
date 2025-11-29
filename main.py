@@ -52,6 +52,37 @@ class Node():
             max_node = max_node.childRight
         
         return (min_node.data, max_node.data)
+    
+    def delete(self, node):
+        if self.data is None:
+            print("Case 1")
+            return self.data
+        if self.data > node:
+            print("case 2")
+            self.childLeft = self.childLeft.delete(node)
+        elif self.data < node:
+            print("c3")
+            self.childRight = self.childRight.delete(node)
+        else:
+            print("got into else")
+            if self.childLeft is None:
+                print("self.childleft is none")
+                return self.childRight
+            elif self.childRight is None:
+                print('self.childright is none')
+                return self.childLeft
+            elif self.childRight is None and self.childLeft is None:
+                print('they are both none')
+                return None
+            else:
+                print('else 2')
+                min, max = self.childRight.minmax()
+                print(min, max)
+                self.data = None
+                self.data = min.data
+                self.childRight.delete(self.childRight)
+                return min
+            
 
 
 root = Node(100)
@@ -59,5 +90,5 @@ root.add(33)
 root.add(50)
 root.add(99)
 root.add(20)
-print(root.binarysearch(444))
-print(root.minmax())
+root.delete(100)
+root.display()
