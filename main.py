@@ -42,6 +42,16 @@ class Node():
             else:
                 return False
 
+    def height(self):
+        left_h = self.childLeft.height() if self.childLeft is not None else -1
+        right_h = self.childRight.height() if self.childRight is not None else -1
+        return 1 + max(left_h, right_h)
+
+    def min(self):
+        if self.childLeft:
+            return self.childLeft.min()
+        return self
+
     def minmax(self):
         min_node = self
         while min_node.childLeft is not None:
@@ -53,10 +63,7 @@ class Node():
         
         return (min_node.data, max_node.data)
     
-    def delete(self, node):
-        if self.data is None:
-            print("Case 1")
-            return self.data
+    def deleteinternal(self, node):
         if self.data > node:
             print("case 2")
             if self.childLeft:
@@ -76,24 +83,34 @@ class Node():
                 return self.childRight
             elif self.childRight is None:
                 print('self.childright is none')
+              
+
                 return self.childLeft
             elif self.childRight is None and self.childLeft is None:
                 print('they are both none')
                 return None
             else:
                 print('else 2')
-                min, max = self.childRight.minmax()
-                print(min, max)
+                min = self.childRight.min().data
+
          
                 self.data = min
                 self.childRight = self.childRight.delete(min)
-                
             
+        return self
+    
+    def delete(self, node):
+        print("do call dl")
+        self = self.deleteinternal(node)
+
+
+    
 
 
 root = Node(100)
 root.add(33)
 root.add(50)
+
 root.add(99)
 root.add(20)
 root.display()
